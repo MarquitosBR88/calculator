@@ -1,3 +1,19 @@
+let firstNum = 0
+let operator = ""
+let secondNum = 0
+
+function operate(operator, a, b) {
+    if (operator === "+") {
+        add(a, b);
+    } else if (operator === "-") {
+        subtract(a, b);
+    } else if (operator === "*") {
+        multiply(a, b);
+    } else if (operator === "/") {
+        divide(a, b);
+    }
+}
+
 function add(a, b) {
     return a + b;
 }
