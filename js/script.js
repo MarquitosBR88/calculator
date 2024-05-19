@@ -1,11 +1,16 @@
-let firstNum = document.querySelectorAll("button")
+//Clicked button
+let clicked = document.querySelectorAll(".number");
+//The final number before clicking the operator
+let input = ""
+//Clicked operator
 let operator = document.querySelectorAll(".add, .subtract, .multiply, .divide, .equals")
-let secondNum = document.querySelectorAll("button")
+let firstNum
+let secondNum
+let result = 0
 let displayValue = document.querySelector(".display")
-let verify = 0
+//Operator of the problem (the operator of the actual operation)
 let problemOperator = ""
 
-start()
 operatorFn()
 
 function operate(operator, a, b) {
@@ -20,83 +25,74 @@ function operate(operator, a, b) {
     }
 }
 
-function start() {
-    if (typeof (firstNum) !== "number") {
-        firstNumFn()
-    } else {
-        secondNumFn()
-    }
-}
+clicked.forEach((button) => {   
+    button.addEventListener("click", () => {
+        
+        //These three lines of code represents the number resetting when the user clicks on a number, to avoid appending the clicked number to 0 or to the result
+        displayValue.textContent = ""
+        clicked = button.textContent;
+        //The input is the final number, while clicked only represents the number that you click on the time, so every number clicked appends to the input
+        input += clicked;
+        
+        if (clicked === "C") {
+            clear();
+        }
+        
 
-
-function firstNumFn() {
-    firstNum.forEach((button) => {   
-        button.addEventListener("click", () => {
-            //Only change firstNum variable before the operatorFn call
-            if (typeof (firstNum) !== "number") {
-                firstNum = button.textContent
-            }
-            if (firstNum === "C") {
-                displayValue.textContent = "0"
-            //Don't append the input with 0
-            } else if (displayValue.textContent === "0") { 
-                displayValue.textContent = ""
-            } 
-            
-            //Don't append the operator with the number
-            //Also made the verify variable to only append the number into the display before the operatorFn call
-            if ((firstNum === "0" || firstNum === "1" || firstNum === "2" || firstNum === "3" || firstNum === "4" || firstNum === "5" || firstNum === "6" || firstNum === "7" || firstNum === "8" || firstNum === "9") && (typeof (verify) !== "string")) {
-                displayValue.textContent += firstNum
-            }
-        });
-    });
-}
+        //Don't append the operator with the number
+        if ((clicked === "0" || clicked === "1" || clicked === "2" || clicked === "3" || clicked === "4" || clicked === "5" || clicked === "6" || clicked === "7" || clicked === "8" || clicked === "9")) {
+            displayValue.textContent = input;
+        }
+    })
+});
 
 function operatorFn() {
-    operator.forEach((button) => {   
-        button.addEventListener("click", () => {
-            operator = button.textContent
-            if (operator === "+" || operator === "-" || operator === "*" || operator === "/") {
-                //Saves the input on the firstNumber variable after an operator is clicked
+    operator.forEach((operation) => {   
+        operation.addEventListener("click", () => {
+            operator = operation.textContent;
+            //The first number will only be modified for being the same as the displayValue on the first operation, after cleaning or after clicking on the equal button.
+            //This is why the first number only turns into a number on this if, because after the if clause, the first number will always be a number and will always be the same as result, for accumulative operations, until the equal button is pressed.
+            //This was made to avoid problems in the accumulative operations (example: 2 + 2 - 3 * 5), and only the second number will be the input after the first operation.
+            if (typeof(firstNum) !== "number") {
                 firstNum = displayValue.textContent
                 firstNum = parseInt(firstNum)
                 problemOperator = operator
-                displayValue.textContent = "0"
-                start()
-            } else if (operator === "=") {
+                result = firstNum
+                displayValue.textContent = result
+            } else {
                 secondNum = displayValue.textContent
                 secondNum = parseInt(secondNum)
-                displayValue.textContent = operate(problemOperator, firstNum, secondNum)
-            }
-        });
-    });
-}
-
-function secondNumFn() {
-    secondNum.forEach((button) => {
-        //When the function is called, verify will instantly be a string, which will negate the if clause in the firstNum function when a button is clicked, and the numbers will not be repeated   
-        verify = button.textContent
-        button.addEventListener("click", () => {
-            secondNum = button.textContent
-            if (secondNum === "C") {
-                displayValue.textContent = "0"
-                firstNum = document.querySelectorAll("button")
-                operator = document.querySelectorAll(".add, .subtract, .multiply, .divide")
-                secondNum = document.querySelectorAll("button")
-                start()
-            } else if (displayValue.textContent === "0") {
-                displayValue.textContent = ""
+                result = operate(problemOperator, firstNum, secondNum)
+                displayValue.textContent = result
+                firstNum = result
             }
 
-            if (secondNum === "0" || secondNum === "1" || secondNum === "2" || secondNum === "3" || secondNum === "4" || secondNum === "5" || secondNum === "6" || secondNum === "7" || secondNum === "8" || secondNum === "9")  {
-                displayValue.textContent += secondNum
+            if (operator !== "=") {
+                problemOperator = operator
+            } else {
+                firstNum = ""
             }
-            console.log(firstNum)
-            console.log(operator)
-            console.log(secondNum)
-                
+
+            //Resets the input after each operator button is clicked
+            displayValue.textContent = result
+            input = ""
+
+            
         });
     });
+};
+
+
+function clear() {
+    displayValue.textContent = 0
+    firstNum = ""
+    operator = document.querySelectorAll(".add, .subtract, .multiply, .divide, .equals")
+    secondNum = ""
+    clicked = document.querySelectorAll(".number")
+    problemOperator = ""
+    result = 0
+    input = ""
+
 }
    
     
