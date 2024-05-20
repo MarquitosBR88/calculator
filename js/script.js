@@ -26,6 +26,7 @@ function operate(operator, a, b) {
     }
 }
 
+
 clicked.forEach((button) => {   
     button.addEventListener("click", () => {    
         
@@ -53,7 +54,36 @@ clicked.forEach((button) => {
             displayValue.textContent = input;
         } 
     })
+
 });
+
+//Keyboard support
+document.addEventListener("keydown", (event) => { 
+        
+    if (event.key === ".") {
+        if (decimalCounter === 0) {
+            input += event.key;
+            decimalCounter++;
+        } 
+    } else {
+            input += event.key;
+    }
+        
+        
+    if (event.key === "Backspace") {
+        clear();
+    }
+    
+    if ((event.key === "0" || event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9" || event.key === ".")) {
+        displayValue.textContent = "";
+        displayValue.textContent = input;
+    } else {
+        //Don't append other characters that aren't numbers
+        input = input.split("");
+        input.splice(-1, 1);
+        input = input.join("");
+    }
+});   
 
 function operatorFn() {
     operator.forEach((operation) => {   
