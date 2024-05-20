@@ -1,5 +1,5 @@
 //Clicked button
-let clicked = document.querySelectorAll(".number");
+let clicked = document.querySelectorAll(".number, .decimal");
 //The final number before clicking the operator
 let input = ""
 //Clicked operator
@@ -10,6 +10,7 @@ let result = 0
 let displayValue = document.querySelector(".display")
 //Operator of the problem (the operator of the actual operation)
 let problemOperator = ""
+let decimalCounter = 0;
 
 operatorFn()
 
@@ -26,13 +27,21 @@ function operate(operator, a, b) {
 }
 
 clicked.forEach((button) => {   
-    button.addEventListener("click", () => {
+    button.addEventListener("click", () => {    
         
         //These three lines of code represents the number resetting when the user clicks on a number, to avoid appending the clicked number to 0 or to the result
         displayValue.textContent = ""
         clicked = button.textContent;
-        //The input is the final number, while clicked only represents the number that you click on the time, so every number clicked appends to the input
-        input += clicked;
+        if (clicked === ".") {
+            //This if clause and decimalCounter variable was made to prevent multiple "." on the number
+            if (decimalCounter === 0) {
+                input += clicked;
+                decimalCounter++
+            } 
+        } else {
+            //The input is the final number, while clicked only represents the number that you click on the time, so every number clicked appends to the input
+            input += clicked;
+        }
         
         if (clicked === "C") {
             clear();
@@ -40,9 +49,9 @@ clicked.forEach((button) => {
         
 
         //Don't append the operator with the number
-        if ((clicked === "0" || clicked === "1" || clicked === "2" || clicked === "3" || clicked === "4" || clicked === "5" || clicked === "6" || clicked === "7" || clicked === "8" || clicked === "9")) {
+        if ((clicked === "0" || clicked === "1" || clicked === "2" || clicked === "3" || clicked === "4" || clicked === "5" || clicked === "6" || clicked === "7" || clicked === "8" || clicked === "9" || clicked === ".")) {
             displayValue.textContent = input;
-        }
+        } 
     })
 });
 
@@ -55,16 +64,18 @@ function operatorFn() {
             //This was made to avoid problems in the accumulative operations (example: 2 + 2 - 3 * 5), and only the second number will be the input after the first operation.
             if (typeof(firstNum) !== "number") {
                 firstNum = displayValue.textContent
-                firstNum = parseInt(firstNum)
+                firstNum = parseFloat(firstNum)
                 problemOperator = operator
                 result = firstNum
+                result = Math.round((result + Number.EPSILON) * 100) / 100
                 displayValue.textContent = result
             } else {
                 secondNum = displayValue.textContent
-                secondNum = parseInt(secondNum)
+                secondNum = parseFloat(secondNum)
                 result = operate(problemOperator, firstNum, secondNum)
+                result = Math.round((result + Number.EPSILON) * 100) / 100
                 displayValue.textContent = result
-                firstNum = result
+                firstNum = result             
             }
 
             if (operator !== "=") {
@@ -74,10 +85,15 @@ function operatorFn() {
             }
 
             //Resets the input after each operator button is clicked
-            displayValue.textContent = result
-            input = ""
-
+            if (secondNum === 0) {
+                alert("R u dumb?")
+                clear()
+            }
             
+
+            input = ""
+            decimalCounter = 0;
+          
         });
     });
 };
@@ -94,8 +110,8 @@ function clear() {
     input = ""
 
 }
-   
-    
+
+      
 
 function add(a, b) {
     return a + b;
