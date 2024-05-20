@@ -81,4 +81,8 @@ button {
     height: 50vh;
 }
 
+.add, .subtract, .multiply, .divide, .equals {
+    background-color: rgb(142, 142, 148);
+    border: solid 1px black;
+}
 
