@@ -1,0 +1,8 @@
+# Calculator Project #
+## The Project ##
+This project is from The Odin Project and is about creating a calculator using JavaScript, HTML and CSS.
+## After Completing The Project ##
+At first, I thought this wasn't going to be hard, I mean, it's just a calculator right?? Wrong, the project is very difficult (even more difficult than the last one), and I spent 5 days on it. Displaying numbers on the display, while storing them in a variable at the same and deleting them from the display without any bugs is very tough and requires a lot of search and rework on the code (my code on the start was a lot bigger and messier than the final one, you can see that on the old commits), and even after various reworks the code is still a little bit messy, but I tried my best to explain it with comments and make it more readable on certain points.
+The first time I thought in giving up on coding was on this project, but after a lot of persistance I finally finished it and I feel very accomplished and satisfied.
+And this is my last message before finishing the last project/lesson on the foundations course, never give up, even if you want to, your effort will be recompensed, so stay focused and keep moving on.
+I also want to thank the curriculum The Odin Project, so far I learned a lot here (even more than in my college), so I'm deeply grateful for all the effort that the team are putting in this curriculum.
